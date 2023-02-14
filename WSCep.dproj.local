@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/10/21 01:49:59.000.893,=C:\Users\david.wilker\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/10/21 02:11:31.000.347,E:\Delphi\WSCep\unitPrincipal.fmx=C:\Users\david.wilker\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
+    <Transaction>2022/10/21 02:11:31.000.347,E:\Delphi\WSCep\unitPrincipal.pas=C:\Users\david.wilker\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/10/21 02:11:37.000.376,E:\Delphi\WSCep\WSCep.dproj=C:\Users\david.wilker\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2022/10/21 02:11:54.000.035,=E:\Delphi\WSCep\uFormat.pas</Transaction>
+  </Transactions>
+</BorlandProject>

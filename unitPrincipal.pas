@@ -1,0 +1,98 @@
+unit unitPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
+  FMX.Edit, FMX.Controls.Presentation, FMX.Ani, FMX.Objects, FMX.Layouts, uFormat,
+  REST.Types, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, REST.Response.Adapter,
+  REST.Client, Data.Bind.Components, Data.Bind.ObjectScope;
+
+type
+  TForm1 = class(TForm)
+    Image1: TImage;
+    Layout1: TLayout;
+    Layout2: TLayout;
+    Rectangle1: TRectangle;
+    Button1: TButton;
+    Image2: TImage;
+    editCep: TEdit;
+    lblCep: TLabel;
+    lblEndereco: TLabel;
+    RESTClient1: TRESTClient;
+    RESTRequest1: TRESTRequest;
+    RESTResponse1: TRESTResponse;
+    RESTResponseDataSetAdapter1: TRESTResponseDataSetAdapter;
+    MemTable: TFDMemTable;
+    procedure editCepClick(Sender: TObject);
+    procedure editCepTyping(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    procedure ConsultarCEP(cep: string);
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.fmx}
+
+procedure TForm1.editCepClick(Sender: TObject);
+begin
+  lblCep.Text := '';
+end;
+
+procedure TForm1.editCepTyping(Sender: TObject);
+begin
+  Formatar(editCep, TFormato.CEP);
+end;
+
+procedure TForm1.ConsultarCEP(cep: string);
+begin
+  if SomenteNumero(editCep.Text).Length <> 8 then
+    begin
+      ShowMessage('CEP inválido');
+      exit;
+    end;
+
+    RESTRequest1.Resource := SomenteNumero(editCep.Text) + '/json';
+    RESTRequest1.Execute;
+
+    if RestRequest1.Response.StatusCode = 200 then
+      begin
+        if RestRequest1.Response.Content.IndexOf('erro') > 0 then
+          begin
+            ShowMessage('CEP não encontrado');
+          end
+        else
+          begin
+             with MemTable do
+             begin
+              lblEndereco.Text := 'CEP: ' + FieldByName('cep').AsString + sLineBreak +
+                                  'Endereço: ' + FieldByName('logradouro').AsString + sLineBreak +
+                                  'Complemento: ' + FieldByName('complemento').AsString + sLineBreak +
+                                  'Bairro: ' + FieldByName('bairro').AsString + sLineBreak +
+                                  'Cidade: ' + FieldByName('localidade').AsString + sLineBreak +
+                                  'UP: ' + FieldByName('uf').AsString + sLineBreak +
+                                  'Cod. IBGE: ' + FieldByName('ibge').AsString + sLineBreak;
+             end;
+          end;
+
+      end
+      else
+        ShowMessage('Erro ao consultar CEP');
+
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  ConsultarCEP(editCep.Text);
+end;
+
+end.
